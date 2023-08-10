@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useContext } from "react";
 import {
   AppBar,
   Box,
@@ -11,6 +11,8 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import Dailog from "../loginDialog/page";
+import { DataContext } from "../context/dataProvider";
 
 const HeadBar = styled(AppBar)`
      background: #2874f0
@@ -65,6 +67,17 @@ const logoURL =
   "https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/flipkart-plus_8d85f4.png";
 
 const Navbar = () => {
+  const [open, setOpen] = useState(false);
+  // const [account] = useContext(DataContext)
+
+  const OpenDialog = () => {
+    setOpen(true);
+  };
+
+  const getData = (data) => {
+    alert("Login", data);
+  };
+
   return (
     <div className="">
       <HeadBar>
@@ -87,7 +100,17 @@ const Navbar = () => {
             </SearchIconBox>
           </ImputContainer>
           <Wrapper>
-            <LoginButton style={{backgroundColor:"#fff"}} variant="contained">Login</LoginButton>
+            {/* {account? <Typography>{account.name}</Typography>
+            :   */}
+            <LoginButton
+              style={{ backgroundColor: "#fff" }}
+              variant="contained"
+              onClick={() => OpenDialog()}
+            >
+              Login
+            </LoginButton>
+            {/* // } */}
+
             <Typography>Become a Seller</Typography>
             <Typography>More</Typography>
             <CartContainer>
@@ -95,6 +118,7 @@ const Navbar = () => {
               <Typography>Cart</Typography>
             </CartContainer>
           </Wrapper>
+          <Dailog open={open} setOpen={setOpen}  />
         </Toolbar>
       </HeadBar>
     </div>

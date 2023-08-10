@@ -1,10 +1,13 @@
 "use client";
-import { Box, Typography, styled } from "@mui/material";
-import React from "react";
+import { Box, Typography, Button, styled, Divider } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { BannerData } from "@/data/data";
 import { CrouselData } from "@/data/data";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import axios from "axios";
+
+import Product from "../productapi/page";
 
 const Conatiner = styled(Box)`
   display: flex;
@@ -30,26 +33,20 @@ const Bannerbox = styled(Box)`
   padding: 10px;
   background: #f2f2f2;
 `;
+
 const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
     items: 1,
   },
-  tablet: {
-    breakpoint: { max: 1024, min: 464 },
-    items: 1,
-  },
-  mobile: {
-    breakpoint: { max: 464, min: 0 },
-    items: 1,
-  },
 };
+
 const HomePage = () => {
   return (
     <>
       <Conatiner>
-        {BannerData.map((el) => (
-          <BannerBox>
+        {BannerData.map((el, i) => (
+          <BannerBox key={i}>
             <img src={el.url} style={{ width: "70px" }} />
             <Text>{el.text}</Text>
           </BannerBox>
@@ -67,10 +64,16 @@ const HomePage = () => {
           itemClass="carousel-item-padding-40-px"
           containerClass="carousel-container"
         >
-          {CrouselData.map((el) => (
-            <Images src={el.url} alt="Banner"/>
+          {CrouselData.map((el, i) => (
+            <Images src={el.url} alt="Banner" key={i} />
           ))}
         </Carousel>
+
+        <Product title="Suggested Items" timer={true} />
+        <Product title="Recommended Items" timer={false} />
+        <Product title="Best Styles for you" timer={false} />
+        <Product title="Top Collections" timer={false} />
+        <Product title="Latest Trends" timer={false} />
       </Bannerbox>
     </>
   );
