@@ -4,7 +4,9 @@ import React, { useEffect, useState } from "react";
 import { Box, Typography, Button, styled, Divider } from "@mui/material";
 import Countdown from "react-countdown";
 import Carousel from "react-multi-carousel";
-
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
 
 const Component = styled(Box)`
   margin-top: 10px;
@@ -46,9 +48,10 @@ const responsive2 = {
   },
 };
 
-const Product = ({title,timer}) => {
+const Product = ({ title, timer }) => {
   const [prodcuts, setProdcuts] = useState([]);
   console.log("TTTTTTTTT", prodcuts);
+  const [edit, setEdit] = useState([]);
 
   const getProducts = async () => {
     const res = await axios.get("http://localhost:3001/products");
@@ -57,6 +60,15 @@ const Product = ({title,timer}) => {
   useEffect(() => {
     getProducts();
   }, []);
+
+  // const editProduct = async () => {
+  //   await axios.put(`http://localhost:3001/products/${_id}`, edit);
+  // };
+  const DeleteProduct = async (_id) => {
+    await axios.delete(`http://localhost:3001/products/${_id}`);
+    getProducts();
+  };
+
   const timerURL =
     "https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/timer_a73398.svg";
   const renderer = ({ hours, minutes, seconds }) => {
@@ -66,25 +78,29 @@ const Product = ({title,timer}) => {
       </Box>
     );
   };
+
   return (
     <>
       <Component>
         <Deal>
           <DealText>{title}</DealText>
-          {
-            timer && <Timer>
-            <img src={timerURL} alt="" style={{ width: 24 }} />
-            <Countdown date={Date.now() + 5.04e7} renderer={renderer} />
-          </Timer>
-          }
-          
-          <ViewAllButton
-            variant="contained"
-            color="primary"
-            style={{ backgroundColor: "#2874f0" }}
-          >
-            View All
-          </ViewAllButton>
+          {timer && (
+            <>
+              <Timer>
+                <img src={timerURL} alt="" style={{ width: 24 }} />
+                <Countdown date={Date.now() + 5.04e7} renderer={renderer} />
+              </Timer>
+
+              <ViewAllButton
+                variant="contained"
+                color="primary"
+                style={{ backgroundColor: "#2874f0" }}
+                href="/addproduct"
+              >
+                Add Product
+              </ViewAllButton>
+            </>
+          )}
         </Deal>
         <Divider />
         <Carousel
@@ -114,6 +130,16 @@ const Product = ({title,timer}) => {
               <Texts style={{ color: "#212121", opacity: ".6" }}>
                 {el.description}
               </Texts>
+              <a href="/editproduct">
+                <BorderColorIcon
+                  style={{ color: "#2874f0", marginLeft: "15px" }}
+                  // onClick={() => editProduct(el._id)}
+                />
+              </a>
+              <DeleteForeverIcon
+                onClick={() => DeleteProduct(el._id)}
+                style={{ color: "#2874f0" }}
+              />
             </Box>
           ))}
         </Carousel>

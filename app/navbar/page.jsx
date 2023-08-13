@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   AppBar,
   Box,
@@ -12,7 +12,8 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Dailog from "../loginDialog/page";
-import { DataContext } from "../context/dataProvider";
+// import { DataContext } from "../context/dataProvider";
+import axios from "axios";
 
 const HeadBar = styled(AppBar)`
      background: #2874f0
@@ -66,16 +67,22 @@ const LoginButton = styled(Button)`
 const logoURL =
   "https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/flipkart-plus_8d85f4.png";
 
-const Navbar = () => {
+const Navbar = (props) => {
   const [open, setOpen] = useState(false);
-  // const [account] = useContext(DataContext)
+  const [query, setQuery] = useState("");
+  console.log("Query", query);
 
   const OpenDialog = () => {
     setOpen(true);
   };
 
-  const getData = (data) => {
-    alert("Login", data);
+  const handelSendData = () => {
+    // try{
+    //   axios.get(`http://localhost:3001/products/?name=${el}`)
+    // }catch(err){
+    //   console.log(err.message);
+    // }
+    props.sendDataToParent(query);
   };
 
   return (
@@ -94,9 +101,13 @@ const Navbar = () => {
             </Box>
           </BoxTag>
           <ImputContainer>
-            <InputSerach placeholder="Search for products and more" />
+            <InputSerach
+              placeholder="Search for products and more"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
             <SearchIconBox>
-              <SearchIcon />
+              <SearchIcon onClick={handelSendData} />
             </SearchIconBox>
           </ImputContainer>
           <Wrapper>
@@ -118,7 +129,7 @@ const Navbar = () => {
               <Typography>Cart</Typography>
             </CartContainer>
           </Wrapper>
-          <Dailog open={open} setOpen={setOpen}  />
+          <Dailog open={open} setOpen={setOpen} />
         </Toolbar>
       </HeadBar>
     </div>

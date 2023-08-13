@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import React, { useState, useContext } from "react";
-import { DataContext } from "../context/dataProvider";
+// import { DataContext } from "../context/dataProvider";
 
 const Component = styled(DialogContent)`
   height: 70vh;
@@ -107,7 +107,7 @@ const accountInitialValues = {
   },
 };
 
-const Dailog = ({ open, setOpen, props }) => {
+const Dailog = ({ open, setOpen }) => {
   const [account, toggleAccount] = useState(accountInitialValues.login);
   const [error, showError] = useState(false);
   const [signUp, setSignUp] = useState(signupInitialValues);
