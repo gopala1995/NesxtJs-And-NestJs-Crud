@@ -50,7 +50,7 @@ const responsive2 = {
 
 const Product = ({ title, timer }) => {
   const [prodcuts, setProdcuts] = useState([]);
-  console.log("TTTTTTTTT", prodcuts);
+  console.log("Products get Api", prodcuts);
   const [edit, setEdit] = useState([]);
 
   const getProducts = async () => {

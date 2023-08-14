@@ -12,8 +12,8 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Dailog from "../loginDialog/page";
-// import { DataContext } from "../context/dataProvider";
 import axios from "axios";
+import { LoginContext } from "../context/dataprovider";
 
 const HeadBar = styled(AppBar)`
      background: #2874f0
@@ -69,8 +69,9 @@ const logoURL =
 
 const Navbar = (props) => {
   const [open, setOpen] = useState(false);
+  const { account } = useContext(LoginContext);
   const [query, setQuery] = useState("");
-  console.log("Query", query);
+  console.log("Nav-Account", account);
 
   const OpenDialog = () => {
     setOpen(true);
@@ -111,16 +112,17 @@ const Navbar = (props) => {
             </SearchIconBox>
           </ImputContainer>
           <Wrapper>
-            {/* {account? <Typography>{account.name}</Typography>
-            :   */}
-            <LoginButton
-              style={{ backgroundColor: "#fff" }}
-              variant="contained"
-              onClick={() => OpenDialog()}
-            >
-              Login
-            </LoginButton>
-            {/* // } */}
+            {account ? (
+              <Typography>{account}</Typography>
+            ) : (
+              <LoginButton
+                style={{ backgroundColor: "#fff" }}
+                variant="contained"
+                onClick={() => OpenDialog()}
+              >
+                Login
+              </LoginButton>
+            )}
 
             <Typography>Become a Seller</Typography>
             <Typography>More</Typography>

@@ -1,6 +1,6 @@
+import ContextProvider from './context/dataprovider'
 import './globals.css'
 import { Inter } from 'next/font/google'
-// import DataProvider from './context/dataProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -12,9 +12,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      {/* <DataProvider> */}
+      <ContextProvider>
       <body className={inter.className}>{children}</body>
-      {/* </DataProvider> */}
+      </ContextProvider>
     </html>
   )
 }

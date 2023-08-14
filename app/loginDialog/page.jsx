@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import React, { useState, useContext } from "react";
-// import { DataContext } from "../context/dataProvider";
+import { LoginContext } from "../context/dataprovider";
 
 const Component = styled(DialogContent)`
   height: 70vh;
@@ -113,8 +113,8 @@ const Dailog = ({ open, setOpen }) => {
   const [signUp, setSignUp] = useState(signupInitialValues);
   const [logIn, setLogin] = useState(loginInitialValues);
   const [logInData, setLoginData] = useState([]);
-  // const [setAccount] = useContext(DataContext);
-  console.log("User Is LoggedIn", logInData);
+  const { setAccount } = useContext(LoginContext);
+  console.log("User Is LoggedIn", logInData.name);
 
   const handleClose = () => {
     setOpen(false);
@@ -142,13 +142,14 @@ const Dailog = ({ open, setOpen }) => {
 
   const loginUser = async () => {
     const res = await axios.post("http://localhost:3001/auth/login", logIn);
+
     setLoginData(res.data);
     // console.log("RRRRRRRRR", res);
-    if (res.status !== 201) {
-      showError(true);
-    } else{
+    if (res.status == 201) {
+      setAccount(logInData.name);
       handleClose();
-      // setAccount(logIn.name);
+    } else {
+      showError(true);
     }
   };
 
