@@ -10,10 +10,11 @@ import {
 } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-
-//   import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Form = styled(FormGroup)`
   width: 50%;
@@ -24,6 +25,7 @@ const Form = styled(FormGroup)`
 `;
 
 const AddUsers = () => {
+  const { push } = useRouter();
   const initial = {
     name: "",
     description: "",
@@ -33,47 +35,86 @@ const AddUsers = () => {
     rating: Number,
   };
 
-  const [user, setUser] = useState(initial);
-  console.log("Updated user", user);
+  const [product, setProduct] = useState(initial);
+  console.log("Updated user", product);
 
-  const onValueChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
-    // console.log(user);
-  };
+  // const onValueChange = (e) => {
+  //   setUser({ ...user, [e.target.name]:e.target.value });
+  //   // console.log(user);
+  // };
   const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZDViY2Q0N2I2MDkzNzlhZDA1NDE0YSIsImlhdCI6MTY5MTcyOTEwOCwiZXhwIjoxNjkxOTg4MzA4fQ.Sf4E6GmepIyGGoVba82Sw9mQfsAJj13r_bljrARPLmk";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZGM3Njk2MzUxOWNjOTVhYzU4NmIzOCIsImlhdCI6MTY5MjE2OTg3OCwiZXhwIjoxNjkyNDI5MDc4fQ.qECMGc9SDRIB7ajUqq2vgvj3xtN9mNWdBFPXVV-hflE";
   const addUser = async () => {
-   await axios.post(`http://localhost:3001/products`, user, {
+    const res = await axios.post(`http://localhost:3001/products`, product, {
       headers: {
         "Content-Type": "application/json",
-        'Authorization': "Bearer " + token,
+        Authorization: "Bearer " + token,
       },
     });
+    if (res) {
+      toast("Product added successfully");
+      setTimeout(() =>{
+        push("/");
+      },2000)
+    }
+    console.log("Add Product", res);
   };
 
   return (
     <div>
       <Form>
+        <ToastContainer />
         <Typography varient="h4">Add Product</Typography>
         <FormControl>
           <InputLabel>Product's Name</InputLabel>
-          <Input name="name" onChange={(e) => onValueChange(e)} />
+          <Input
+            name="name"
+            onChange={(e) =>
+              setProduct({ ...product, [e.target.name]: e.target.value })
+            }
+          />
         </FormControl>
         <FormControl>
           <InputLabel>Product's Description</InputLabel>
-          <Input name="description" onChange={(e) => onValueChange(e)} />
+          <Input
+            name="description"
+            onChange={(e) =>
+              setProduct({ ...product, [e.target.name]: e.target.value })
+            }
+          />
         </FormControl>
         <FormControl>
           <InputLabel>Product's Image Url</InputLabel>
-          <Input name="image" onChange={(e) => onValueChange(e)} />
+          <Input
+            name="image"
+            onChange={(e) =>
+              setProduct({ ...product, [e.target.name]: e.target.value })
+            }
+          />
         </FormControl>
         <FormControl>
           <InputLabel>Product's Price</InputLabel>
-          <Input name="price" onChange={(e) => onValueChange(e)} />
+          <Input
+            name="price"
+            onChange={(e) =>
+              setProduct({
+                ...product,
+                [e.target.name]: parseInt(e.target.value),
+              })
+            }
+          />
         </FormControl>
         <FormControl>
           <InputLabel>Product's Rating</InputLabel>
-          <Input name="rating" onChange={(e) => onValueChange(e)} />
+          <Input
+            name="rating"
+            onChange={(e) =>
+              setProduct({
+                ...product,
+                [e.target.name]: parseInt(e.target.value),
+              })
+            }
+          />
         </FormControl>
         <FormControl>
           <FormControlLabel
@@ -81,7 +122,12 @@ const AddUsers = () => {
               <Checkbox
                 name="published"
                 value={true}
-                onChange={(e) => onValueChange(e)}
+                onChange={(e) =>
+                  setProduct({
+                    ...product,
+                    [e.target.name]: JSON.parse(e.target.value),
+                  })
+                }
               />
             }
             label="Published"
@@ -93,7 +139,12 @@ const AddUsers = () => {
               <Checkbox
                 name="published"
                 value={false}
-                onChange={(e) => onValueChange(e)}
+                onChange={(e) =>
+                  setProduct({
+                    ...product,
+                    [e.target.name]: JSON.parse(e.target.value),
+                  })
+                }
               />
             }
             label="Not Published"
@@ -105,7 +156,7 @@ const AddUsers = () => {
             style={{ background: "#2874f0" }}
             variant="contained"
           >
-            Add User
+            Add Product
           </Button>
         </FormControl>
       </Form>

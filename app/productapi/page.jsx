@@ -7,6 +7,7 @@ import Carousel from "react-multi-carousel";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
+import Link from "next/link";
 
 const Component = styled(Box)`
   margin-top: 10px;
@@ -51,7 +52,8 @@ const responsive2 = {
 const Product = ({ title, timer }) => {
   const [prodcuts, setProdcuts] = useState([]);
   console.log("Products get Api", prodcuts);
-  const [edit, setEdit] = useState([]);
+  const [edit, setEdit] = useState("");
+  console.log("Edit Id", edit);
 
   const getProducts = async () => {
     const res = await axios.get("http://localhost:3001/products");
@@ -130,12 +132,11 @@ const Product = ({ title, timer }) => {
               <Texts style={{ color: "#212121", opacity: ".6" }}>
                 {el.description}
               </Texts>
-              <a href="/editproduct">
+              <Link href={"/edit/"+el._id}>
                 <BorderColorIcon
                   style={{ color: "#2874f0", marginLeft: "15px" }}
-                  // onClick={() => editProduct(el._id)}
                 />
-              </a>
+              </Link>
               <DeleteForeverIcon
                 onClick={() => DeleteProduct(el._id)}
                 style={{ color: "#2874f0" }}

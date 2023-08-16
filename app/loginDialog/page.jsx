@@ -144,9 +144,10 @@ const Dailog = ({ open, setOpen }) => {
     const res = await axios.post("http://localhost:3001/auth/login", logIn);
 
     setLoginData(res.data);
+    setAccount(logInData.name);
     // console.log("RRRRRRRRR", res);
     if (res.status == 201) {
-      setAccount(logInData.name);
+      
       handleClose();
     } else {
       showError(true);

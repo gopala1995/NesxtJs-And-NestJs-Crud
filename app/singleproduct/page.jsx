@@ -1,19 +1,17 @@
-import React, { useState } from 'react'
-import Navbar from '../navbar/page'
+import React, { useContext, useState } from "react";
+import Navbar from "../navbar/page";
+import { SearchContext } from "../context/dataprovider";
 
 const SignleProduct = () => {
-    const [data,setData] = useState("")
-    console.log("Input data",data)
-
-const recieveDataFromChild = (input) => {
-      setData(input)
-}
+  // const [data, setData] = useState("");
+  const { search } = useContext(SearchContext);
+  console.log("Input data in signle", search);
 
   return (
     <div>
-        <Navbar sendDataToParent={recieveDataFromChild}/>
+      <Navbar />
     </div>
-  )
-}
+  );
+};
 
-export default SignleProduct
+export default SignleProduct;
