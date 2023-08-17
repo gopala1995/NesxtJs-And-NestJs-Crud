@@ -14,7 +14,8 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Dailog from "../loginDialog/page";
 import axios from "axios";
 import { LoginContext } from "../context/dataprovider";
-import { SearchContext } from "../context/dataprovider";
+import { useRouter } from "next/navigation";
+
 
 const HeadBar = styled(AppBar)`
      background: #2874f0
@@ -69,10 +70,11 @@ const logoURL =
   "https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/flipkart-plus_8d85f4.png";
 
 const Navbar = () => {
+  const { push } = useRouter();
   const [open, setOpen] = useState(false);
   const { account } = useContext(LoginContext);
   const [query, setQuery] = useState("");
-  const {setSearch} = useContext(SearchContext)
+  const {setSearch} = useContext(LoginContext)
   console.log("Nav-Account", account);
   // console.log("Response-Query",query)
 
@@ -82,13 +84,7 @@ const Navbar = () => {
 
   const handelSendData = () => {
     setSearch(query)
-    // try{
-    //  const res = await axios.get(`http://localhost:3001/products/?name=${query}`)
-     
-    //  console.log("Response",res)
-    // }catch(err){
-    //   console.log(err.message);
-    // }
+    push("/singleproduct")
    
   };
 
