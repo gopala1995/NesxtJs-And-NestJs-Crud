@@ -1,3 +1,4 @@
+"use client"
 import {
   Dialog,
   DialogContent,
@@ -11,6 +12,7 @@ import {
 import axios from "axios";
 import React, { useState, useContext } from "react";
 import { LoginContext } from "../context/dataprovider";
+import Cookies from "js-cookie";
 
 const Component = styled(DialogContent)`
   height: 70vh;
@@ -112,9 +114,10 @@ const Dailog = ({ open, setOpen }) => {
   const [error, showError] = useState(false);
   const [signUp, setSignUp] = useState(signupInitialValues);
   const [logIn, setLogin] = useState(loginInitialValues);
-  const [logInData, setLoginData] = useState([]);
+  // const [logInData, setLoginData] = useState([]);
   const { setAccount } = useContext(LoginContext);
-  console.log("User Is LoggedIn", logInData.name);
+  // console.log("User Is LoggedIn", logInData);
+ 
 
   const handleClose = () => {
     setOpen(false);
@@ -143,11 +146,12 @@ const Dailog = ({ open, setOpen }) => {
   const loginUser = async () => {
     const res = await axios.post("http://localhost:3001/auth/login", logIn);
 
-    setLoginData(res.data);
-    setAccount(logInData.name);
+    // setLoginData(res.data.name);
+    // setAccount(logInData);
+    Cookies.set("LoginCookies", JSON.stringify(res.data.name), { expires: 1, path: '/' });
     // console.log("RRRRRRRRR", res);
+    window.location.reload();
     if (res.status == 201) {
-      
       handleClose();
     } else {
       showError(true);

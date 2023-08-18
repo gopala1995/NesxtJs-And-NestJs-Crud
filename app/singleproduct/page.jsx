@@ -7,9 +7,9 @@ import { Box, Button, Typography, styled, Grid } from "@mui/material";
 import ProductDetail from "../singleDeatils/page";
 
 const Component = styled(Box)`
-    margin-top: 55px;
-    background: #F2F2F2;
-    height:100vh;
+  margin-top: 55px;
+  background: #f2f2f2;
+  height: 100vh;
 `;
 
 const LeftContainer = styled(Box)(({ theme }) => ({
@@ -46,10 +46,10 @@ const RightContainer = styled(Grid)`
     margin-top: 10px;
   }
 `;
-
+const fassured =
+  "https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/fa_62673a.png";
+  
 const SignleProduct = () => {
-  const fassured =
-    "https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/fa_62673a.png";
   const [data, setData] = useState([]);
   const { search } = useContext(LoginContext);
   console.log("Input data in signle", search);
@@ -70,25 +70,25 @@ const SignleProduct = () => {
       <Navbar />
       <Component>
         {data.map((el) => (
-          <Container >
+          <Container>
             <Grid item lg={4} md={4} sm={8} xs={12}>
-            <LeftContainer>
-              <Image src={el.image} />
-              <br />
-              <StyledButton
-                style={{ marginRight: 10, background: "#ff9f00" }}
-                variant="contained"
-              >
-                Add to Cart
-              </StyledButton>
-              <StyledButton
-                style={{ background: "#fb641b" }}
-                variant="contained"
-              >
-                {" "}
-                Buy Now
-              </StyledButton>
-            </LeftContainer>
+              <LeftContainer>
+                <Image src={el.image} />
+                <br />
+                <StyledButton
+                  style={{ marginRight: 10, background: "#ff9f00" }}
+                  variant="contained"
+                >
+                  Add to Cart
+                </StyledButton>
+                <StyledButton
+                  style={{ background: "#fb641b" }}
+                  variant="contained"
+                >
+                  {" "}
+                  Buy Now
+                </StyledButton>
+              </LeftContainer>
             </Grid>
             <RightContainer item lg={8} md={8} sm={8} xs={12}>
               <Typography>{el.name}</Typography>

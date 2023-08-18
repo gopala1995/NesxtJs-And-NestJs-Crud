@@ -54,7 +54,7 @@ const EditProduct = ({ params }) => {
       product
     );
     if(res){
-      toast("Edit Successful",)
+      toast.success("Edit Successful",)
       setTimeout(() =>{
         push("/");
       },2000)

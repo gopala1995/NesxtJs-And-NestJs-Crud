@@ -52,7 +52,7 @@ const AddUsers = () => {
       },
     });
     if (res) {
-      toast("Product added successfully");
+      toast.success("Product added successfully");
       setTimeout(() =>{
         push("/");
       },2000)

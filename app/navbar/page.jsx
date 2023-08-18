@@ -15,7 +15,7 @@ import Dailog from "../loginDialog/page";
 import axios from "axios";
 import { LoginContext } from "../context/dataprovider";
 import { useRouter } from "next/navigation";
-
+import Cookies from "js-cookie";
 
 const HeadBar = styled(AppBar)`
      background: #2874f0
@@ -74,18 +74,26 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const { account } = useContext(LoginContext);
   const [query, setQuery] = useState("");
-  const {setSearch} = useContext(LoginContext)
+  const { setSearch } = useContext(LoginContext);
+  const [user, setUser] = useState("");
   console.log("Nav-Account", account);
-  // console.log("Response-Query",query)
+  console.log("Response-Query", user);
+  useEffect(() => {
+    const userCookies = Cookies.get("LoginCookies");
+    setUser(userCookies && JSON.parse(userCookies));
+  }, []);
 
   const OpenDialog = () => {
     setOpen(true);
   };
 
   const handelSendData = () => {
-    setSearch(query)
-    push("/singleproduct")
-   
+    setSearch(query);
+    push("/singleproduct");
+  };
+  const Logout = () => {
+    Cookies.remove("LoginCookies");
+    window.location.reload();
   };
 
   return (
@@ -114,8 +122,8 @@ const Navbar = () => {
             </SearchIconBox>
           </ImputContainer>
           <Wrapper>
-            {account ? (
-              <Typography>{account}</Typography>
+            {user ? (
+              <Typography>{user}</Typography>
             ) : (
               <LoginButton
                 style={{ backgroundColor: "#fff" }}
@@ -123,6 +131,15 @@ const Navbar = () => {
                 onClick={() => OpenDialog()}
               >
                 Login
+              </LoginButton>
+            )}
+            {user && (
+              <LoginButton
+                style={{ backgroundColor: "#fff" }}
+                variant="contained"
+                onClick={() => Logout()}
+              >
+                LogOut
               </LoginButton>
             )}
 
