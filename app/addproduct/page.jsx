@@ -15,6 +15,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Cookies from "js-cookie";
 
 const Form = styled(FormGroup)`
   width: 50%;
@@ -36,14 +37,15 @@ const AddUsers = () => {
   };
 
   const [product, setProduct] = useState(initial);
+
+  const [token, setToken] = useState();
   console.log("Updated user", product);
 
-  // const onValueChange = (e) => {
-  //   setUser({ ...user, [e.target.name]:e.target.value });
-  //   // console.log(user);
-  // };
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZGM3Njk2MzUxOWNjOTVhYzU4NmIzOCIsImlhdCI6MTY5MjE2OTg3OCwiZXhwIjoxNjkyNDI5MDc4fQ.qECMGc9SDRIB7ajUqq2vgvj3xtN9mNWdBFPXVV-hflE";
+  useEffect(() => {
+    const SignUpToken = Cookies.get("SignCookies");
+    setToken(SignUpToken && JSON.parse(SignUpToken));
+  }, []);
+
   const addUser = async () => {
     const res = await axios.post(`http://localhost:3001/products`, product, {
       headers: {
@@ -53,9 +55,9 @@ const AddUsers = () => {
     });
     if (res) {
       toast.success("Product added successfully");
-      setTimeout(() =>{
+      setTimeout(() => {
         push("/");
-      },2000)
+      }, 2000);
     }
     console.log("Add Product", res);
   };

@@ -139,6 +139,8 @@ const Dailog = ({ open, setOpen }) => {
 
   const signupUser = async () => {
     const res = await axios.post("http://localhost:3001/auth/signup", signUp);
+    console.log("Token res",res.data.token);
+    Cookies.set("SignCookies", JSON.stringify(res.data.token), { expires: 1, path: '/' });
     if (!res) return;
     toggleAccount(accountInitialValues.login);
   };
